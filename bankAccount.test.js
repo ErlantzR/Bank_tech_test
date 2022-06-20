@@ -52,12 +52,33 @@ describe("BankAccount", () => {
   describe("#printBankStatements()", () => {
     it("prints the titles and a balance of 0 when instance is created", () => {
       console.log = jest.fn();
-      account.printBankStatements();
       const date = new Date()
-      const dateFormatted = date.toLocaleDateString("en-GB", { day: 'numeric', month: 'numeric', year: 'numeric'});
+      const dateFormatted = date.toLocaleDateString("en-GB", { 
+        day: 'numeric', 
+        month: 'numeric', 
+        year: 'numeric',
+      });
+
+      account.printBankStatements();
 
       expect(console.log).toHaveBeenCalledWith("date || credit || debit || balance");
       expect(console.log).toHaveBeenCalledWith(`${dateFormatted} || || || 0.00`);
+    });
+
+    it("prints deposit transaction as credit", () => {
+      console.log = jest.fn();
+      account.depositMoney(500);
+      const date = new Date()
+      const dateFormatted = date.toLocaleDateString("en-GB", { 
+        day: 'numeric', 
+        month: 'numeric', 
+        year: 'numeric',
+      });
+
+      account.printBankStatements();
+
+      expect(console.log).toHaveBeenCalledWith("date || credit || debit || balance");
+      expect(console.log).toHaveBeenCalledWith(`${dateFormatted} || 500.00 || || 500.00`);
     })
   })
 })
