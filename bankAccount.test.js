@@ -77,11 +77,11 @@ describe("BankAccount", () => {
 
       account.printBankStatements();
 
-      expect(console.log).toHaveBeenCalledWith("date || credit || debit || balance");
-      expect(console.log).toHaveBeenCalledWith(`${dateFormatted} || 500.00 || || 500.00`);
+      expect(console.log.mock.calls[0][0]).toBe("date || credit || debit || balance");
+      expect(console.log.mock.calls[1][0]).toBe(`${dateFormatted} || 500.00 || || 500.00`);
     })
 
-    it("prints withdraw transaction as debit", () => {
+    it("prints withdraw transaction as debit. Also both deposit and withdraw are printed in reversed chronological order", () => {
       console.log = jest.fn();
       const date = new Date()
       const dateFormatted = date.toLocaleDateString("en-GB", { 
@@ -94,9 +94,9 @@ describe("BankAccount", () => {
 
       account.printBankStatements();
 
-      expect(console.log).toHaveBeenCalledWith("date || credit || debit || balance");
-      expect(console.log).toHaveBeenCalledWith(`${dateFormatted} || 500.00 || || 500.00`);
-      expect(console.log).toHaveBeenCalledWith(`${dateFormatted} || || 200.00 || 300.00`);
+      expect(console.log.mock.calls[0][0]).toBe("date || credit || debit || balance");
+      expect(console.log.mock.calls[1][0]).toBe(`${dateFormatted} || || 200.00 || 300.00`);
+      expect(console.log.mock.calls[2][0]).toBe(`${dateFormatted} || 500.00 || || 500.00`);
     })
   })
 })

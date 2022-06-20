@@ -44,7 +44,7 @@ class BankAccount {
       const dateFormatted = this.createFormattedDate()
       console.log(`${dateFormatted} || || || ${Number(this.balance).toFixed(2)}`);
     } else {
-      this.statements.forEach((statement) => {
+      this.statements.reverse().forEach((statement) => {
         console.log(statement);
       });
     };
