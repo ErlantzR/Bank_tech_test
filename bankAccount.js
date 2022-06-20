@@ -1,6 +1,7 @@
 class BankAccount {
   constructor() {
     this.balance = 0;
+    this.statements = [];
   }
 
   depositMoney(amount) {
@@ -17,6 +18,19 @@ class BankAccount {
       throw "Not enough funds";
     }
     this.balance -= amount;
+  }
+
+  printBankStatements() {
+    console.log("date || credit || debit || balance")
+    if (this.statements.length === 0) {
+      const date = new Date();
+      const dateFormatted = date.toLocaleDateString("en-GB", { 
+        day: 'numeric',
+        month: 'numeric',
+        year: 'numeric',
+      });
+      console.log(`${dateFormatted} || || || ${Number(this.balance).toFixed(2)}`);
+    };
   }
 }
 

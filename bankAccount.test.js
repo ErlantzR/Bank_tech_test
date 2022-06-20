@@ -48,4 +48,16 @@ describe("BankAccount", () => {
       }).toThrow("Not enough funds");
     });
   });
+
+  describe("#printBankStatements()", () => {
+    it("prints the titles and a balance of 0 when instance is created", () => {
+      console.log = jest.fn();
+      account.printBankStatements();
+      const date = new Date()
+      const dateFormatted = date.toLocaleDateString("en-GB", { day: 'numeric', month: 'numeric', year: 'numeric'});
+
+      expect(console.log).toHaveBeenCalledWith("date || credit || debit || balance");
+      expect(console.log).toHaveBeenCalledWith(`${dateFormatted} || || || 0.00`);
+    })
+  })
 })
