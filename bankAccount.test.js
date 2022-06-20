@@ -80,5 +80,23 @@ describe("BankAccount", () => {
       expect(console.log).toHaveBeenCalledWith("date || credit || debit || balance");
       expect(console.log).toHaveBeenCalledWith(`${dateFormatted} || 500.00 || || 500.00`);
     })
+
+    it("prints withdraw transaction as debit", () => {
+      console.log = jest.fn();
+      const date = new Date()
+      const dateFormatted = date.toLocaleDateString("en-GB", { 
+        day: 'numeric', 
+        month: 'numeric', 
+        year: 'numeric',
+      });
+      account.depositMoney(500);
+      account.withdrawMoney(200);
+
+      account.printBankStatements();
+
+      expect(console.log).toHaveBeenCalledWith("date || credit || debit || balance");
+      expect(console.log).toHaveBeenCalledWith(`${dateFormatted} || 500.00 || || 500.00`);
+      expect(console.log).toHaveBeenCalledWith(`${dateFormatted} || || 200.00 || 300.00`);
+    })
   })
 })
