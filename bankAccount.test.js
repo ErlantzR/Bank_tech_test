@@ -32,5 +32,12 @@ describe("BankAccount", () => {
 
       expect(account.balance).toBe(100);
     });
+
+    it("throws an error if trying to withdraw a negative number", () => {
+      
+      expect(() => {
+        account.withdraw(-20);
+      }).toThrow("Only positive amounts accepted");
+    })
   })
 })
