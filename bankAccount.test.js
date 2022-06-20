@@ -12,23 +12,23 @@ describe("BankAccount", () => {
 
   describe("#depositMoney(amount)", () => {
     it("increases the balance by the amount given as an argument", () => {
-      account.deposit(100);
+      account.depositMoney(100);
 
       expect(account.balance).toBe(100);
     });
 
     it("throws an error if amount <= 0", () => {
       expect(() => {
-        account.deposit(-50);
+        account.depositMoney(-50);
       }).toThrow("Only positive amounts accepted");
     });
   })
 
   describe("#withdrawMoney(amount)", () => {
     it("decreases the balance by the amount given as an argument", () => {
-      account.deposit(200);
+      account.depositMoney(200);
 
-      account.withdraw(100);
+      account.withdrawMoney(100);
 
       expect(account.balance).toBe(100);
     });
@@ -36,7 +36,7 @@ describe("BankAccount", () => {
     it("throws an error if trying to withdraw a negative number", () => {
       
       expect(() => {
-        account.withdraw(-20);
+        account.withdrawMoney(-20);
       }).toThrow("Only positive amounts accepted");
     })
   })
