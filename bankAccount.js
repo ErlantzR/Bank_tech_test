@@ -4,6 +4,9 @@ class BankAccount {
   }
 
   deposit(amount) {
+    if (amount <= 0) {
+      throw "Only positive amounts accepted";
+    }
     this.balance += amount;
   }
 
