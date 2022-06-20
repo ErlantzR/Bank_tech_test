@@ -13,6 +13,8 @@ class BankAccount {
   withdrawMoney(amount) {
     if (amount <= 0) {
       throw "Only positive amounts accepted";
+    } else if (amount > this.balance) {
+      throw "Not enough funds";
     }
     this.balance -= amount;
   }

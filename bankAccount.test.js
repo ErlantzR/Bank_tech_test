@@ -22,7 +22,7 @@ describe("BankAccount", () => {
         account.depositMoney(-50);
       }).toThrow("Only positive amounts accepted");
     });
-  })
+  });
 
   describe("#withdrawMoney(amount)", () => {
     it("decreases the balance by the amount given as an argument", () => {
@@ -38,6 +38,14 @@ describe("BankAccount", () => {
       expect(() => {
         account.withdrawMoney(-20);
       }).toThrow("Only positive amounts accepted");
-    })
-  })
+    });
+
+    it("throws an error if trying to withdraw an amount bigger than the balance", () => {
+      account.depositMoney(50);
+
+      expect(() => {
+        account.withdrawMoney(100);
+      }).toThrow("Not enough funds");
+    });
+  });
 })
