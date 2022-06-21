@@ -5,18 +5,13 @@ describe('BankStatements', () => {
     bankStatements = new BankStatements;
   });
 
-  it('By creation, the statements attibrute has only the titles', () => {
-    expect(bankStatements.statements)
-        .toEqual(['date || credit || debit || balance']);
-  });
-
-  describe('#createStatement(reason, amount)', () => {
+  describe('#createStatement(reason, amount, balance)', () => {
     it('"deposit", adds a credit transaction with amount and balance', () => {
       bankStatements.createStatement('deposit', 1000, 2000);
       const date = new Date();
       const dateFormatted = date.toLocaleDateString();
 
-      expect(bankStatements.statements[1])
+      expect(bankStatements.statements[0])
           .toEqual(`${dateFormatted} || 1000.00 || || 2000.00`);
     });
 
@@ -25,7 +20,7 @@ describe('BankStatements', () => {
       const date = new Date();
       const dateFormatted = date.toLocaleDateString();
 
-      expect(bankStatements.statements[1])
+      expect(bankStatements.statements[0])
           .toEqual(`${dateFormatted} || || 500.00 || 1500.00`);
     });
 
@@ -33,6 +28,23 @@ describe('BankStatements', () => {
       expect(() => {
         bankStatements.createStatement('whatever', 1000, 2000);
       }).toThrow('Reason for statement not recognised');
+    });
+  });
+
+  describe('#printStatements()', () => {
+    beforeEach(() => {
+      console.log = jest.fn();
+      date = new Date();
+      dateFormatted = date.toLocaleDateString();
+    });
+
+    it('prints titles and a balance of 0 when no statements created', () => {
+      bankStatements.printStatements();
+
+      expect(console.log.mock.calls[0][0])
+          .toBe('date || credit || debit || balance');
+      expect(console.log.mock.calls[1][0])
+          .toBe(`${dateFormatted} || || || 0.00`);
     });
   });
 });

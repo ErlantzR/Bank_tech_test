@@ -1,7 +1,7 @@
 /* eslint-disable require-jsdoc */
 class BankStatements {
   constructor() {
-    this.statements = ['date || credit || debit || balance'];
+    this.statements = [];
   }
 
   createFormattedDate() {
@@ -26,6 +26,18 @@ class BankStatements {
       default:
         throw new Error('Reason for statement not recognised');
     }
+  }
+
+  printStatements() {
+    console.log('date || credit || debit || balance');
+    if (this.statements.length === 0) {
+      const dateFormatted = this.createFormattedDate();
+      console.log(`${dateFormatted} || || || 0.00`);
+    } else {
+      this.statements.reverse().forEach((statement) => {
+        console.log(statement);
+      });
+    };
   }
 }
 
