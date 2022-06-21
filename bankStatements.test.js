@@ -28,5 +28,11 @@ describe('BankStatements', () => {
       expect(bankStatements.statements[1])
           .toEqual(`${dateFormatted} || || 500.00 || 1500.00`);
     });
+
+    it('throws an error when reason is not one accepted', () => {
+      expect(() => {
+        bankStatements.createStatement('whatever', 1000, 2000);
+      }).toThrow('Reason for statement not recognised');
+    });
   });
 });
