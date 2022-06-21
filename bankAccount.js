@@ -26,11 +26,11 @@ class BankAccount {
     const dateFormatted = this.createFormattedDate()
     switch(reason) {
       case "deposit":
-        const depositStatement = `${dateFormatted} || ${Number(amount).toFixed(2)} || || ${Number(this.balance).toFixed(2)}`;
+        const depositStatement = `${dateFormatted} || ${amount.toFixed(2)} || || ${this.balance.toFixed(2)}`;
         this.statements.push(depositStatement);
         break;
       case "withdraw":
-        const withdrawStatement = `${dateFormatted} || || ${Number(amount).toFixed(2)} || ${Number(this.balance).toFixed(2)}`;
+        const withdrawStatement = `${dateFormatted} || || ${amount.toFixed(2)} || ${this.balance.toFixed(2)}`;
         this.statements.push(withdrawStatement);
         break;
       default:
@@ -52,11 +52,7 @@ class BankAccount {
 
   createFormattedDate() {
     const date = new Date();
-    const dateFormatted = date.toLocaleDateString("en-GB", { 
-      day: 'numeric',
-      month: 'numeric',
-      year: 'numeric',
-    });
+    const dateFormatted = date.toLocaleDateString();
     return dateFormatted
   }
 }

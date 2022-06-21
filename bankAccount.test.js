@@ -53,11 +53,7 @@ describe("BankAccount", () => {
     it("prints the titles and a balance of 0 when instance is created", () => {
       console.log = jest.fn();
       const date = new Date()
-      const dateFormatted = date.toLocaleDateString("en-GB", { 
-        day: 'numeric', 
-        month: 'numeric', 
-        year: 'numeric',
-      });
+      const dateFormatted = date.toLocaleDateString();
 
       account.printBankStatements();
 
