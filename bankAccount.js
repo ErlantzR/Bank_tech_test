@@ -1,8 +1,10 @@
+const BankStatements = require('./bankStatements');
+
 /* eslint-disable require-jsdoc */
 class BankAccount {
   constructor() {
     this.balance = 0;
-    this.statements = [];
+    this.statements = new BankStatements;
   }
 
   depositMoney(amount) {
@@ -10,7 +12,7 @@ class BankAccount {
       throw new Error('Only positive amounts accepted');
     }
     this.balance += amount;
-    this.createStatement('deposit', amount);
+    this.statements.createStatement('deposit', amount, this.balance);
   }
 
   withdrawMoney(amount) {
@@ -20,44 +22,11 @@ class BankAccount {
       throw new Error('Not enough funds');
     }
     this.balance -= amount;
-    this.createStatement('withdraw', amount);
-  }
-
-  createStatement(reason, amount) {
-    const dateFormatted = this.createFormattedDate();
-    const amount2D = amount.toFixed(2);
-    const balance2D = this.balance.toFixed(2);
-    switch (reason) {
-      case 'deposit':
-        const dStatement = `${dateFormatted} || ${amount2D} || || ${balance2D}`;
-        this.statements.push(dStatement);
-        break;
-      case 'withdraw':
-        const wStatement = `${dateFormatted} || || ${amount2D} || ${balance2D}`;
-        this.statements.push(wStatement);
-        break;
-      default:
-        throw new Error('error');
-    };
+    this.statements.createStatement('withdraw', amount, this.balance);
   }
 
   printBankStatements() {
-    console.log('date || credit || debit || balance');
-    if (this.statements.length === 0) {
-      const dateFormatted = this.createFormattedDate();
-      const balance2D = this.balance.toFixed(2);
-      console.log(`${dateFormatted} || || || ${balance2D}`);
-    } else {
-      this.statements.reverse().forEach((statement) => {
-        console.log(statement);
-      });
-    };
-  }
-
-  createFormattedDate() {
-    const date = new Date();
-    const dateFormatted = date.toLocaleDateString();
-    return dateFormatted;
+    this.statements.printStatements();
   }
 }
 
