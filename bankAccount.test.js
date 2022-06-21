@@ -1,31 +1,28 @@
-const BankAccount = require("./bankAccount")
+const BankAccount = require('./bankAccount');
 
-describe("BankAccount", () => {
+describe('BankAccount', () => {
   beforeEach(() => {
-    account = new BankAccount;
+    account = new BankAccount();
   });
-  
-  it("When an instance is created, it has a balance of 0", () => {
-
+  it('When an instance is created, it has a balance of 0', () => {
     expect(account.balance).toBe(0);
   });
 
-  describe("#depositMoney(amount)", () => {
-    it("increases the balance by the amount given as an argument", () => {
+  describe('#depositMoney(amount)', () => {
+    it('increases the balance by the amount given as an argument', () => {
       account.depositMoney(100);
 
       expect(account.balance).toBe(100);
     });
 
-    it("throws an error if amount <= 0", () => {
+    it('throws an error if amount <= 0', () => {
       expect(() => {
         account.depositMoney(-50);
-      }).toThrow("Only positive amounts accepted");
+      }).toThrow('Only positive amounts accepted');
     });
   });
-
-  describe("#withdrawMoney(amount)", () => {
-    it("decreases the balance by the amount given as an argument", () => {
+  describe('#withdrawMoney(amount)', () => {
+    it('decreases the balance by the amount given as an argument', () => {
       account.depositMoney(200);
 
       account.withdrawMoney(100);
@@ -33,66 +30,64 @@ describe("BankAccount", () => {
       expect(account.balance).toBe(100);
     });
 
-    it("throws an error if trying to withdraw a negative number", () => {
-      
+    it('throws an error if trying to withdraw a negative number', () => {
       expect(() => {
         account.withdrawMoney(-20);
-      }).toThrow("Only positive amounts accepted");
+      }).toThrow('Only positive amounts accepted');
     });
 
-    it("throws an error if trying to withdraw an amount bigger than the balance", () => {
+    it('throws an error if amount bigger than the balance', () => {
       account.depositMoney(50);
 
       expect(() => {
         account.withdrawMoney(100);
-      }).toThrow("Not enough funds");
+      }).toThrow('Not enough funds');
     });
   });
 
-  describe("#printBankStatements()", () => {
-    it("prints the titles and a balance of 0 when instance is created", () => {
+  describe('#printBankStatements()', () => {
+    it('prints the titles and a balance of 0 when instance is created', () => {
       console.log = jest.fn();
-      const date = new Date()
+      const date = new Date();
       const dateFormatted = date.toLocaleDateString();
 
       account.printBankStatements();
 
-      expect(console.log).toHaveBeenCalledWith("date || credit || debit || balance");
-      expect(console.log).toHaveBeenCalledWith(`${dateFormatted} || || || 0.00`);
+      expect(console.log)
+          .toHaveBeenCalledWith('date || credit || debit || balance');
+      expect(console.log)
+          .toHaveBeenCalledWith(`${dateFormatted} || || || 0.00`);
     });
 
-    it("prints deposit transaction as credit", () => {
+    it('prints deposit transaction as credit', () => {
       console.log = jest.fn();
       account.depositMoney(500);
-      const date = new Date()
-      const dateFormatted = date.toLocaleDateString("en-GB", { 
-        day: 'numeric', 
-        month: 'numeric', 
-        year: 'numeric',
-      });
+      const date = new Date();
+      const dateFormatted = date.toLocaleDateString();
 
       account.printBankStatements();
 
-      expect(console.log.mock.calls[0][0]).toBe("date || credit || debit || balance");
-      expect(console.log.mock.calls[1][0]).toBe(`${dateFormatted} || 500.00 || || 500.00`);
-    })
+      expect(console.log.mock.calls[0][0])
+          .toBe('date || credit || debit || balance');
+      expect(console.log.mock.calls[1][0])
+          .toBe(`${dateFormatted} || 500.00 || || 500.00`);
+    });
 
-    it("prints withdraw transaction as debit. Also both deposit and withdraw are printed in reversed chronological order", () => {
+    it('prints transactions. Also both in reversed chronological order', () => {
       console.log = jest.fn();
-      const date = new Date()
-      const dateFormatted = date.toLocaleDateString("en-GB", { 
-        day: 'numeric', 
-        month: 'numeric', 
-        year: 'numeric',
-      });
+      const date = new Date();
+      const dateFormatted = date.toLocaleDateString();
       account.depositMoney(500);
       account.withdrawMoney(200);
 
       account.printBankStatements();
 
-      expect(console.log.mock.calls[0][0]).toBe("date || credit || debit || balance");
-      expect(console.log.mock.calls[1][0]).toBe(`${dateFormatted} || || 200.00 || 300.00`);
-      expect(console.log.mock.calls[2][0]).toBe(`${dateFormatted} || 500.00 || || 500.00`);
-    })
-  })
-})
+      expect(console.log.mock.calls[0][0])
+          .toBe('date || credit || debit || balance');
+      expect(console.log.mock.calls[1][0])
+          .toBe(`${dateFormatted} || || 200.00 || 300.00`);
+      expect(console.log.mock.calls[2][0])
+          .toBe(`${dateFormatted} || 500.00 || || 500.00`);
+    });
+  });
+});
