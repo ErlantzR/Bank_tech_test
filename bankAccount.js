@@ -1,10 +1,10 @@
-const BankStatements = require('./bankStatements');
+const BankStatement = require('./bankStatement');
 
 /* eslint-disable require-jsdoc */
 class BankAccount {
   constructor() {
     this.balance = 0;
-    this.statements = new BankStatements;
+    this.statements = new BankStatement;
   }
 
   depositMoney(amount) {

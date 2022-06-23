@@ -1,5 +1,5 @@
 /* eslint-disable require-jsdoc */
-class BankStatements {
+class BankStatement {
   constructor() {
     this.statements = [];
   }
@@ -41,4 +41,4 @@ class BankStatements {
   }
 }
 
-module.exports = BankStatements;
+module.exports = BankStatement;
