@@ -1,11 +1,14 @@
 const BankAccount = require('../lib/bankAccount');
 const BankStatement = require('../lib/bankStatement');
+const TransactionHistory = require('../lib/transactionHistory');
 jest.mock('../lib/bankStatement');
+jest.mock('../lib/transactionHistory');
 
 describe('BankAccount', () => {
   beforeEach(() => {
     mockBankStatement = new BankStatement;
-    account = new BankAccount(mockBankStatement);
+    mockTransactionHistory = new TransactionHistory;
+    account = new BankAccount(mockBankStatement, mockTransactionHistory);
   });
   it('When an instance is created, it has a balance of 0', () => {
     expect(account.balance).toBe(0);
@@ -23,6 +26,8 @@ describe('BankAccount', () => {
 
       expect(mockBankStatement.createStatement)
           .toHaveBeenCalledWith('deposit', 100, 100);
+      expect(mockTransactionHistory.insertTransaction)
+          .toHaveBeenCalled();
     });
 
     it('throws an error if amount <= 0', () => {
@@ -47,6 +52,8 @@ describe('BankAccount', () => {
 
       expect(mockBankStatement.createStatement)
           .toHaveBeenCalledWith('withdraw', 100, 100);
+      expect(mockTransactionHistory.insertTransaction)
+          .toHaveBeenCalled();
     });
 
     it('throws an error if trying to withdraw a negative number', () => {
@@ -68,7 +75,8 @@ describe('BankAccount', () => {
     it('calls printStatments method from BankStatement class', () => {
       account.printBankStatements();
 
-      expect(mockBankStatement.printStatements).toHaveBeenCalled();
+      expect(mockBankStatement.printStatements)
+          .toHaveBeenCalledWith(mockTransactionHistory.transactions);
     });
   });
 });
