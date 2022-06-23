@@ -7,20 +7,18 @@ describe('BankStatements', () => {
 
   describe('#createStatement(reason, amount, balance)', () => {
     it('"deposit", adds a credit transaction with amount and balance', () => {
-      bankStatements.createStatement('deposit', 2000, 2000);
       const date = new Date();
       const dateFormatted = date.toLocaleDateString();
 
-      expect(bankStatements.statements[0])
+      expect(bankStatements.createStatement('deposit', 2000, 2000))
           .toEqual(`${dateFormatted} || 2000.00 || || 2000.00`);
     });
 
     it('"withdraw", adds a debit transaction with amount and balance', () => {
-      bankStatements.createStatement('withdraw', 500, 1500);
       const date = new Date();
       const dateFormatted = date.toLocaleDateString();
 
-      expect(bankStatements.statements[0])
+      expect(bankStatements.createStatement('withdraw', 500, 1500))
           .toEqual(`${dateFormatted} || || 500.00 || 1500.00`);
     });
 
@@ -38,8 +36,8 @@ describe('BankStatements', () => {
       dateFormatted = date.toLocaleDateString();
     });
 
-    it('prints titles and a balance of 0 when no statements created', () => {
-      bankStatements.printStatements();
+    it('prints titles and a balance of 0 when no statements given', () => {
+      bankStatements.printStatements([]);
 
       expect(console.log.mock.calls[0][0])
           .toBe('date || credit || debit || balance');
@@ -47,21 +45,22 @@ describe('BankStatements', () => {
           .toBe(`${dateFormatted} || || || 0.00`);
     });
 
-    it('prints transactions, credit and debit in reverse order', () => {
+    it('prints title and transactions, when some statements given', () => {
       bankStatements.createStatement('deposit', 2000, 2000);
       bankStatements.createStatement('withdraw', 500, 1500);
       bankStatements.createStatement('deposit', 750, 2250);
 
-      bankStatements.printStatements();
+      bankStatements.printStatements([
+        'example of statement',
+        'example of statement 2',
+      ]);
 
       expect(console.log.mock.calls[0][0])
           .toBe('date || credit || debit || balance');
       expect(console.log.mock.calls[1][0])
-          .toBe(`${dateFormatted} || 750.00 || || 2250.00`);
+          .toBe('example of statement');
       expect(console.log.mock.calls[2][0])
-          .toBe(`${dateFormatted} || || 500.00 || 1500.00`);
-      expect(console.log.mock.calls[3][0])
-          .toBe(`${dateFormatted} || 2000.00 || || 2000.00`);
+          .toBe('example of statement 2');
     });
   });
 });
