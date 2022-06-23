@@ -1,6 +1,6 @@
-const BankAccount = require('./bankAccount');
-const BankStatement = require('./bankStatement');
-jest.mock('./bankStatement');
+const BankAccount = require('../lib/bankAccount');
+const BankStatement = require('../lib/bankStatement');
+jest.mock('../lib/bankStatement');
 
 describe('BankAccount', () => {
   beforeEach(() => {

@@ -1,4 +1,4 @@
-const BankStatement = require('./bankStatement');
+const BankStatement = require('../lib/bankStatement');
 
 describe('BankStatements', () => {
   beforeEach(() => {
