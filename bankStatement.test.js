@@ -2,7 +2,7 @@ const BankStatement = require('./bankStatement');
 
 describe('BankStatements', () => {
   beforeEach(() => {
-    bankStatements = new BankStatement;
+    bankStatements = new BankStatement();
   });
 
   describe('#createStatement(reason, amount, balance)', () => {

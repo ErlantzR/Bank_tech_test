@@ -1,8 +1,11 @@
 const BankAccount = require('./bankAccount');
+const BankStatement = require('./bankStatement');
+jest.mock('./bankStatement');
 
 describe('BankAccount', () => {
   beforeEach(() => {
-    account = new BankAccount();
+    mockBankStatement = new BankStatement;
+    account = new BankAccount(mockBankStatement);
   });
   it('When an instance is created, it has a balance of 0', () => {
     expect(account.balance).toBe(0);
@@ -13,6 +16,13 @@ describe('BankAccount', () => {
       account.depositMoney(100);
 
       expect(account.balance).toBe(100);
+    });
+
+    it('creates a statement when a deposit is made', () => {
+      account.depositMoney(100);
+
+      expect(mockBankStatement.createStatement)
+          .toHaveBeenCalledWith('deposit', 100, 100);
     });
 
     it('throws an error if amount <= 0', () => {
@@ -28,6 +38,15 @@ describe('BankAccount', () => {
       account.withdrawMoney(100);
 
       expect(account.balance).toBe(100);
+    });
+
+    it('creates a statement when a withdraw is made', () => {
+      account.depositMoney(200);
+
+      account.withdrawMoney(100);
+
+      expect(mockBankStatement.createStatement)
+          .toHaveBeenCalledWith('withdraw', 100, 100);
     });
 
     it('throws an error if trying to withdraw a negative number', () => {
@@ -46,48 +65,10 @@ describe('BankAccount', () => {
   });
 
   describe('#printBankStatements()', () => {
-    it('prints the titles and a balance of 0 when instance is created', () => {
-      console.log = jest.fn();
-      const date = new Date();
-      const dateFormatted = date.toLocaleDateString();
-
+    it('calls printStatments method from BankStatement class', () => {
       account.printBankStatements();
 
-      expect(console.log)
-          .toHaveBeenCalledWith('date || credit || debit || balance');
-      expect(console.log)
-          .toHaveBeenCalledWith(`${dateFormatted} || || || 0.00`);
-    });
-
-    it('prints deposit transaction as credit', () => {
-      console.log = jest.fn();
-      account.depositMoney(500);
-      const date = new Date();
-      const dateFormatted = date.toLocaleDateString();
-
-      account.printBankStatements();
-
-      expect(console.log.mock.calls[0][0])
-          .toBe('date || credit || debit || balance');
-      expect(console.log.mock.calls[1][0])
-          .toBe(`${dateFormatted} || 500.00 || || 500.00`);
-    });
-
-    it('prints transactions. Also both in reversed chronological order', () => {
-      console.log = jest.fn();
-      const date = new Date();
-      const dateFormatted = date.toLocaleDateString();
-      account.depositMoney(500);
-      account.withdrawMoney(200);
-
-      account.printBankStatements();
-
-      expect(console.log.mock.calls[0][0])
-          .toBe('date || credit || debit || balance');
-      expect(console.log.mock.calls[1][0])
-          .toBe(`${dateFormatted} || || 200.00 || 300.00`);
-      expect(console.log.mock.calls[2][0])
-          .toBe(`${dateFormatted} || 500.00 || || 500.00`);
+      expect(mockBankStatement.printStatements).toHaveBeenCalled();
     });
   });
 });
