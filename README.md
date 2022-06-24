@@ -30,9 +30,10 @@ date || credit || debit || balance
 
 ## Approach
 
-It was decided to create 2 classes:
-* **BankAccount**, which will take care of the balance and methods related to change this value (deposit, withdraw)
-* **BankStatements**, which will take care of the statements and methods related (create them and print them). Transactions should include the date they happened in the required format (check 'acceptance criteria')
+It was decided to create 3 classes:
+* **BankAccount**, which will take care of the balance and methods related to change this value (deposit, withdraw). It has injected the 2 other classes
+* **BankStatements**, which will work as a 'statement generator' (same instance can be used by several accounts). Transactions should include the date they happened in the required format (check 'acceptance criteria')
+* **TransactionHistory**, which will store the transactions from one account and provide them to BankStatements class when printing them
 
 ## Getting started
 
@@ -53,11 +54,27 @@ npm install
 
 On node, require BankAccount class:
 ```
-const BankAccount = require('./bankAccount');
+const BankAccount = require('./lib/bankAccount');
+```
+Require BankStatement class:
+```
+const BankStatement = require('./lib/bankStatement');
+```
+Require Transaction History class:
+```
+const TransactionHistory = require('./lib/transactionHistory');
+```
+Create an instance of BankStatement:
+```
+const statements = new BankStatement;
+```
+Create an instance of TransactionHistory:
+```
+const transactionHistory = new TransactionHistory;
 ```
 Create a new bank account:
 ```
-const account = new BankAccount;
+const account = new BankAccount(statements, transactionHistory);
 ```
 Call `account.depositMoney(amount)` to deposit money, `account.withdrawMoney(amount)` to withdraw money and `account.printBankStatements()` to print the statements.
 
